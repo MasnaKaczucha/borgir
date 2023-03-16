@@ -3,10 +3,24 @@ from tkinter import ttk
 root = Tk()
 root.geometry('500x1000')
 
+
+def click():
+    print('name', name_info.get(), 'bun:', buns_info.get(), 'meat:', meat_info.get(), 'doneness:', doneness_info.get())
+
+    for variable in sauce_variables:
+        print(variable, sauce_variables[variable].get())
+
+    for variable in veggie_variables:
+        print(variable, veggie_variables[variable].get())
+
+    print(veggie_variables['Cucumber'].get())
+
+
 name_lbl = Label(root, text="Name of the borgir", width=20, font=("bold", 15), anchor="w")
 name_lbl.place(x=30, y=30)
+name_info = StringVar()
 
-name = Entry(root, width=20)
+name = Entry(root, textvariable=name_info, width=20)
 name.place(x=30, y=70)
 
 meat_lbl = Label(root, text="Meat", width=20, font=("bold", 15), anchor="w")
@@ -35,28 +49,50 @@ Radiobutton(root, text="Plain", padx=5, variable=buns_info, value=1).place(x=30,
 Radiobutton(root, text="Sesame Seed", padx=5, variable=buns_info, value=2).place(x=30, y=390)
 Radiobutton(root, text="Potato", padx=5, variable=buns_info, value=3).place(x=30, y=410)
 
-veggies_lbl = Label(root, text="Veggies", width=20, font=("bold", 15), anchor="w")
-veggies_lbl.place(x=30, y=440)
+frame_veggies = LabelFrame(root, text="Veggies", height=40, font=("bold", 15), padx=5, pady=20)
+frame_veggies.place(x=30, y=445)
 
-veggies_list = Listbox(root, selectmode="multiple", height=5)
-veggies_list.pack(side=LEFT)
-veggies_list.place(x=30, y=470)
+# veggies_lbl = Label(root, text="Veggies", width=20, font=("bold", 15), anchor="w")
+# veggies_lbl.place(x=30, y=440)
+
+# veggies_list = Listbox(root, selectmode="multiple", height=5)
+# veggies_list.pack(side=LEFT)
+# veggies_list.place(x=30, y=470)
+
 veggies = ["Cucumber", "Iceberg Lettuce", "Tomato", "Jalapeno"]
+veggie_variables = {}
 
-for each_item in range(len(veggies)):
-    veggies_list.insert(END, veggies[each_item])
+for veggie in veggies:
 
-sauces_lbl = Label(root, text="Sauces", width=20, font=("bold", 15), anchor="w")
-sauces_lbl.place(x=30, y=550)
+    veggie_info = IntVar()
+    checkbutton = Checkbutton(frame_veggies, text=veggie, var=veggie_info)
+    checkbutton.pack(anchor="w")
 
-sauces_list = Listbox(root, selectmode="multiple", height=5)
-sauces_list.pack(side=LEFT)
-sauces_list.place(x=30, y=580)
+    veggie_variables[veggie] = veggie_info
+
+
+print(veggie_variables)
+
+#
+# for each_item in range(len(veggies)):
+#     veggies_list.insert(END, veggies[each_item])
+
+
+frame_sauces = LabelFrame(root, text="Sauces", height=40, font=("bold", 15), padx=5, pady=20)
+frame_sauces.place(x=30, y=630)
+
 sauces = ["BBQ", "Mayo", "Ketchup", "Hot Sauce", "Garlic Sauce"]
+sauce_variables = {}
 
-for each_item in range(len(sauces)):
-    sauces_list.insert(END, sauces[each_item])
+for sauce in sauces:
+    sauce_info = IntVar()
 
-Button(root, text="Make me ice cream", width=20, anchor="w").place(x=30, y=700)
+    checkbutton = Checkbutton(frame_sauces, text=sauce, var=sauce_info)
+    checkbutton.pack(anchor="w")
+
+    sauce_variables[sauce] = sauce_info
+
+
+Button(root, text="Make me ice cream", width=20, anchor="w", command=click).place(x=30, y=850)
 
 root.mainloop()
